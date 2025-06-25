@@ -1,0 +1,18 @@
+# data_dict template
+
+This is a template of the data_dict data store to help visualise
+the structure while working on the application.
+
+{ 
+rel_path : {
+        content : str(.md file contents)
+        content_no_yaml: str(file contents with frontmatter removed)
+        metadata : {
+            item1 : value
+            item2 : value
+            item3 : value
+        }
+        tasks : [{completed: bool, task: str(tasktext)}, ... ]
+        word_count : int(word_count)
+    }
+}
