@@ -12,7 +12,7 @@ rel_path : {
             item2 : value
             item3 : value
         }
-        tasks : [{completed: bool, task: str(tasktext)}, ... ]
+        tasks : [{complete: bool, task: str(tasktext)}, ... ]
         word_count : int(word_count)
     }
 }

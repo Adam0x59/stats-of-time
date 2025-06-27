@@ -37,6 +37,10 @@ def parse_md_files(path, data_dict, base_path):
             #print(f"{item} is a directory...")
             parse_md_files(item_abs_path, data_dict, base_path)
 
+def extract_date(data_dict):
+    for key in data_dict:
+        data_dict[key]["date"] = os.path.splitext(os.path.basename(key))[0]
+
 def extract_metadata(data_dict):
     """
     Extracts YAML frontmatter metadata from markdown content in `data_dict`.
