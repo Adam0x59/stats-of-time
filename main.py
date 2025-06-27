@@ -1,28 +1,42 @@
 from CONFIG import *
 import os
+import sys
+import argparse
 from functions.doc_parse import *
 from functions.display_stats import *
 
+def process_vault(path):
+    data_dict = {}
+    parse_md_files(path, data_dict, base_path=path)
+    extract_date(data_dict)
+    extract_metadata(data_dict)
+    extract_tasks(data_dict)
+    extract_wordcount(data_dict)
+    return data_dict
+
 def main():
 
-    # Identify and parse .md files from directories in OBSIDIAN_VALUT_PATH
+    parser = argparse.ArgumentParser(description="Parse and display stats from Obsidian markdown vault")
+    parser.add_argument('--all', action='store_true', help='List all data - Default is most recent 5 rows')
+    parser.add_argument('--graph', action='store_true', help='Enable graph mode')
+    parser.add_argument('--sort_wc', action='store_true', help='Sort by word count')
+    args = parser.parse_args()
+
+    # Identify and parse .md files from directories in OBSIDIAN_VAULT_PATH
     # recursively and store content in data_dict to await further processing
     directory_path = os.path.abspath(os.path.expanduser(OBSIDIAN_VAULT_PATH))
     #print(f"Resolved path: {directory_path}")
     if not os.path.exists(directory_path):
         print("Provided path does not exist - exiting program!")
-        exit(1)
-    data_dict = {}
-    parse_md_files(directory_path, data_dict, base_path=directory_path)
-    # Parse items stored in data_dict, extract metadata, tasks and calculate
-    # word count. Store data alongside content in data_dict.
-    extract_date(data_dict)
-    extract_metadata(data_dict)
-    extract_tasks(data_dict)
-    extract_wordcount(data_dict)
+        sys.exit(1)
+    
+    data_dict = process_vault(directory_path) 
 
     # Display stats in a tablulate table within the shell
-    display_stats_tabulate(data_dict)
+    display_stats_tabulate(data_dict, args)
+    if args.graph:
+        # TODO: implement graph plotting
+        pass
 
     '''
     for key in data_dict:
@@ -32,4 +46,5 @@ def main():
         print("############################################################\n")
     '''
         
-main()
+if __name__ == "__main__":
+    main()

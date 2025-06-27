@@ -59,11 +59,11 @@ def extract_metadata(data_dict):
         content = data_dict[key]["content"]
         data_dict[key]["content_no_yaml"] = content
         if content.startswith("---\n"):
-            match = re.match(FRONTMATTER_RE, content)
-            data_dict[key]["content_no_yaml"] = re.sub(FRONTMATTER_RE,"", content).lstrip()
+            match = FRONTMATTER_RE.match(content)
             if not match:
-                print("no match")
+                print(f"[Warning] Frontmatter start but no closing --- found in {key}")
                 continue
+            data_dict[key]["content_no_yaml"] = re.sub(FRONTMATTER_RE,"", content).lstrip()
             raw_metadata = match.group(1)
             try:
                 data_dict[key]["metadata"] = yaml.safe_load(raw_metadata)
