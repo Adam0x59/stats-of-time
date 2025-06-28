@@ -17,9 +17,11 @@ def process_vault(path):
 def main():
 
     parser = argparse.ArgumentParser(description="Parse and display stats from Obsidian markdown vault")
-    parser.add_argument('--all', action='store_true', help='List all data - Default is most recent 5 rows')
-    parser.add_argument('--graph', action='store_true', help='Enable graph mode')
-    parser.add_argument('--sort_wc', action='store_true', help='Sort by word count')
+    parser.add_argument('-a','--all', action='store_true', help='List all data - Default is most recent 5 rows')
+    parser.add_argument('-c', '--count', type=int, default=5, help='List data for "COUNT" number of results from the most recent entry back')
+    parser.add_argument('-g', '--graph', action='store_true', help='Enable graph mode')
+    parser.add_argument('-s', '--sort_wc', action='store_true', help='Sort by word count')
+    parser.add_argument('-G', '--graph-only', action='store_true', help='Only display graphs')
     args = parser.parse_args()
 
     # Identify and parse .md files from directories in OBSIDIAN_VAULT_PATH
@@ -33,10 +35,12 @@ def main():
     data_dict = process_vault(directory_path) 
 
     # Display stats in a tablulate table within the shell
-    display_stats_tabulate(data_dict, args)
-    if args.graph:
-        # TODO: implement graph plotting
-        pass
+    if not args.graph_only:
+        display_stats_tabulate(data_dict, args)
+        if args.graph:
+            display_wc_graph(data_dict, args)
+    else:
+        display_wc_graph(data_dict, args)
 
     '''
     for key in data_dict:
