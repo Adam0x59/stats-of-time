@@ -1,6 +1,7 @@
 from tabulate import tabulate
 import shutil
 import math
+from functions.graph import *
 
 def build_data_set(data_dict, args):
     """
@@ -75,7 +76,7 @@ def display_stats_tabulate(data_dict, args):
         # Word count sort
         table.sort(key=lambda row: row[3])
     else:
-        #Default sort
+        #Default sort (date)
         table.sort(key=lambda row: row[0])
     
     # Display the table
@@ -83,46 +84,12 @@ def display_stats_tabulate(data_dict, args):
 
 
 def display_wc_graph(data_dict, args):
-    # Build data set to be displayed **function**
+    # Build data set to be displayed
     data_set = build_data_set(data_dict, args)
-
-    # Calculate graphing boundaries **graphing**
-    columns, _ = shutil.get_terminal_size()
-    columns = min(columns, 100)
-    max_title_len = max(len(data_set[k]["date"]) for k in data_set)
-    max_value_len = max(data_set[k]["word_count"] for k in data_set)
-    max_bar_len = (columns - max_title_len - len(str(max_value_len))) - 4 
-    data_normalisation_factor = float(max_bar_len - 1) / max_value_len
-
-    # Build table of data to be graphed **function**
-    row_data = []
-    for entry_key, entry_data in data_set.items():
-        bar_len = max(0, math.floor(entry_data["word_count"] * data_normalisation_factor))
-        row_data.append([entry_data["date"], bar_len, entry_data["word_count"]])
-    
-    # Generate rows from data to be graphed **graphing**
-    rows = []
-    for item in row_data:
-        if item[2] <= 0:
-        # For values 0 or less show only legend
-            rows.append(f"{item[0]}: ")
-        elif item[1] <= 0:
-        # For bar values of 0 but data is above zero, bar size 1
-            rows.append(f"{item[0]}: ⬢ {item[2]}")
-        else:
-        # Normal operation, display scaled bar and data
-            bar = item[1] * "⬢"
-            rows.append(f"{item[0]}: {bar} {item[2]}")
-
-    # Print graph title **graphing**
-    title = "#### Graph of word counts "
-    justified_title = title.ljust(columns, "#")
-    print("\n" + "#" * columns)
-    print(f"{justified_title}")
-    print("#" * columns + "\n")
-
-    # Print each row to the terminal **graphing**
-    for string in rows:
-        print(string)
-    print("\n" + "#" * columns)
-    print(f"#" * columns + "\n")
+    # Generate data list for graphing function
+    data = []
+    for key, key_data in data_set.items():
+        data.append([key_data["date"], key_data["word_count"]])
+    title = "Graph of word counts"
+    # Call graphing function
+    bar_graph(data, title)

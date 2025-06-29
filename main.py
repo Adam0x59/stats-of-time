@@ -17,8 +17,10 @@ def process_vault(path):
 def main():
 
     parser = argparse.ArgumentParser(description="Parse and display stats from Obsidian markdown vault")
-    parser.add_argument('-a','--all', action='store_true', help='List all data - Default is most recent 5 rows')
-    parser.add_argument('-c', '--count', type=int, default=5, help='List data for "COUNT" number of results from the most recent entry back')
+    parser.add_argument('-a','--all', action='store_true', 
+                        help='List all data - Default is most recent 5 rows')
+    parser.add_argument('-c', '--count', type=int, default=5, 
+                        help='List data for "COUNT" number of results from the most recent entry back')
     parser.add_argument('-g', '--graph', action='store_true', help='Enable graph mode')
     parser.add_argument('-s', '--sort_wc', action='store_true', help='Sort by word count')
     parser.add_argument('-G', '--graph-only', action='store_true', help='Only display graphs')
