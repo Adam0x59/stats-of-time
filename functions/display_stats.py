@@ -84,6 +84,18 @@ def display_stats_tabulate(data_dict, args):
 
 
 def display_wc_graph(data_dict, args):
+    """
+    Build and display a horizontal bar graph of word counts from the given data.
+
+    Args:
+        data_dict: dict, containing data records keyed by identifier (e.g., dates)
+        args: object or dict, parameters or filters to be used by build_data_set
+
+    Workflow:
+        - Calls build_data_set() to prepare the filtered/processed data.
+        - Extracts date and word count from each entry to build a data list.
+        - Passes this list to bar_graph() to render the graph in terminal.
+    """
     # Build data set to be displayed
     data_set = build_data_set(data_dict, args)
     # Generate data list for graphing function
