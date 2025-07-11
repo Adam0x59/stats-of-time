@@ -29,28 +29,19 @@ def main():
     # Identify and parse .md files from directories in OBSIDIAN_VAULT_PATH
     # recursively and store content in data_dict to await further processing
     directory_path = os.path.abspath(os.path.expanduser(OBSIDIAN_VAULT_PATH))
-    #print(f"Resolved path: {directory_path}")
     if not os.path.exists(directory_path):
         print("Provided path does not exist - exiting program!")
         sys.exit(1)
     
     data_dict = process_vault(directory_path) 
 
-    # Display stats in a tablulate table within the shell
+    # Display stats
     if not args.graph_only:
         display_stats_tabulate(data_dict, args)
         if args.graph:
             display_wc_graph(data_dict, args)
     else:
         display_wc_graph(data_dict, args)
-
-    '''
-    for key in data_dict:
-        print("############################################################")
-        for sub_key in data_dict[key]:
-            print(f"\n{sub_key}:\n----\n{data_dict[key][sub_key]}\n----\n")
-        print("############################################################\n")
-    '''
         
 if __name__ == "__main__":
     main()

@@ -19,7 +19,7 @@ def build_data_set(data_dict, args):
         data_list = list(data_dict.items())
         data_list.sort(key=lambda item: item[1]["date"])
         return dict(data_list)
-    # else: default or --count flag
+    # default or --count flag
     data_list = sorted(data_dict.items(), key=lambda item: item[1]["date"])
     # Take the last N entries (args.count)
     selected_items = data_list[-args.count:]

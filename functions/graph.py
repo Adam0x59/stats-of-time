@@ -37,7 +37,6 @@ def normalise_bar_graph_data(data, max_width):
     max_value_len = max(item[1] for item in data)
     max_bar_len = (columns - max_title_len - len(str(max_value_len))) - 3 
     data_normalisation_factor = float(max_bar_len - 1) / max_value_len
-    # Calc bar_len for data items and populate new list
     scaled_data = []
     for item in data:
         scaled_data.append([item[0], item[1], max(0, math.floor(item[1] * data_normalisation_factor))])
@@ -78,13 +77,11 @@ def print_bar_graph(title, columns, rows):
         columns: int, width of the graph in characters
         rows: list of strings, the formatted lines representing the graph bars
     """
-    # Print title
     title = "#### " + title + " "
     justified_title = title.ljust(columns, "#")
     print("\n" + "#" * columns)
     print(f"{justified_title}")
     print("#" * columns + "\n")
-    # Print rows
     for string in rows:
         print(string)
     print("\n" + "#" * columns)

@@ -34,7 +34,6 @@ def parse_md_files(path, data_dict, base_path):
                     print(f"Error reading file {rel_path}")
                     continue
         else:
-            #print(f"{item} is a directory...")
             parse_md_files(item_abs_path, data_dict, base_path)
 
 def extract_date(data_dict):
@@ -100,7 +99,6 @@ def extract_tasks(data_dict):
             if match:
                 complete = match.group(1).lower() == "x"
                 data_dict[key]["tasks"].append({"complete": complete, "task": match.group(2).strip()})
-        #print(f"\nExtracted tasks from {key}:\n--------\n{repr(data_dict[key]['tasks'])}\n--------\n")
         
 def extract_wordcount(data_dict):
     """
@@ -113,4 +111,3 @@ def extract_wordcount(data_dict):
     for key in data_dict:
         word_list = re.findall(r'\b\w+\b', data_dict[key]["content"])
         data_dict[key]["word_count"] = max(0, len(word_list) - TEMPLATE_WORD_COUNT)
-        #print(f"\nWord count of {key}: {data_dict[key]['word_count']}")
