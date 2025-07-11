@@ -1,6 +1,4 @@
 from tabulate import tabulate
-import shutil
-import math
 from functions.graph import *
 
 def build_data_set(data_dict, args):
